@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class MainActivity extends AppCompatActivity {
+    private int selectedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
                 sendBtnValue(1);
             }
         });
+        ConnectionScreen connectionScreen = new ConnectionScreen(); //Retrieves Login Credentials
+        //SocketClient socketClient = new SocketClient(connectionScreen.getIp(),connectionScreen.getPort()); //Creates Client Side Socket
+
+
+
         Button btn2 = (Button) (findViewById(R.id.btn2));
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 sendBtnValue(2);
             }
         });
-
         Button btn3 = (Button) (findViewById(R.id.btn3));
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,20 +41,25 @@ public class MainActivity extends AppCompatActivity {
                 sendBtnValue(3);
             }
         });
+        Button btn4 = (Button) (findViewById(R.id.btn4));
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendBtnValue(4);
+            }
+        });
+
+
+    }
+    public int getSelectedButton(){
+        return selectedButton;
     }
 
     /* Sends value of button pressed
-
      */
-    public void sendBtnValue(int value) {
+    public void sendBtnValue(int selectedButton) {
+        this.selectedButton = selectedButton;
+    }
 
-    }
-    /* Attempts to create connection with
-    PC side server
-     */
-    public void establishConnection(String ip, int port) {
-        SocketClient openConnection = new SocketClient();
-        openConnection.setIp(ip);
-        openConnection.setPort(port);
-    }
+
 }
