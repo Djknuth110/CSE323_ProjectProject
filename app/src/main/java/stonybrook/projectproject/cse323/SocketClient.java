@@ -45,6 +45,7 @@ public class SocketClient extends AsyncTask<Void, Void, String> {
         boolean connected = false;
         boolean exit = false;
 
+        System.out.println("Attemting to connect..");
         try {
             socket = new Socket(getIp(), getPort()); //Creates and initializes a new socket
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
@@ -54,6 +55,7 @@ public class SocketClient extends AsyncTask<Void, Void, String> {
             InputStream inputStream = socket.getInputStream();
 
             do {
+                System.out.println("Connection Successful");
                 byteArrayOutputStream.write(buffer, 0, bytesRead);
                 responce += byteArrayOutputStream.toString("UTF-8");
 
