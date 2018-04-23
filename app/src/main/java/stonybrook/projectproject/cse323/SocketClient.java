@@ -1,8 +1,9 @@
 package stonybrook.projectproject.cse323;
 
-import android.os.AsyncTask;
-import android.widget.TextView;
 
+import android.os.AsyncTask;
+import android.os.NetworkOnMainThreadException;
+import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 import java.net.Socket;
 import java.io.IOException;
@@ -12,42 +13,29 @@ public class SocketClient extends AsyncTask<Void, Void, String> {
 
     private String ip;
     private int port;
+    private boolean running = false;
     String responce = "";
     TextView textResponce;
 
-    public SocketClient(String ip) {
-        this.ip = ip;
-    }
-
-    public  SocketClient(String ip, int port) {
-        this.port = port;
-    }
 
     /* timeDelay is used to prevent user
-    from rapidly entering too many commands before
-    the they can be processed. CURRENTLY NOT BEING USED
-     */
+     from rapidly entering too many commands before
+     the they can be processed. CURRENTLY NOT BEING USED
+      */
     private static int timeDelay = 3;
 
-
-    public String getIp() {
-        return ip;
-    }
-
-    public int getPort() {
-        return port;
-
+    public  SocketClient(String ip, int port) {
+        this.ip = ip;
+        this.port = port;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
         Socket socket = null;
-        boolean connected = false;
-        boolean exit = false;
 
         System.out.println("Attemting to connect..");
         try {
-            socket = new Socket(getIp(), getPort()); //Creates and initializes a new socket
+            socket = new Socket(ip,port); //Creates and initializes a new socket
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
             byte[] buffer = new byte[1024];
 
@@ -55,7 +43,9 @@ public class SocketClient extends AsyncTask<Void, Void, String> {
             InputStream inputStream = socket.getInputStream();
 
             do {
+
                 System.out.println("Connection Successful");
+                running = true;
                 byteArrayOutputStream.write(buffer, 0, bytesRead);
                 responce += byteArrayOutputStream.toString("UTF-8");
 
@@ -65,7 +55,10 @@ public class SocketClient extends AsyncTask<Void, Void, String> {
         }
         catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }catch (NetworkOnMainThreadException e) {
+            System.out.print("Failed: Network On Main Thread Exception.");
+        }
+        finally {
             if (socket != null) {
                 try {
                     socket.close();
@@ -74,9 +67,11 @@ public class SocketClient extends AsyncTask<Void, Void, String> {
                 }
             }
         }
-
         return responce;
+    }
 
+    public boolean checkConnection() {
+        return running;
     }
 
     @Override

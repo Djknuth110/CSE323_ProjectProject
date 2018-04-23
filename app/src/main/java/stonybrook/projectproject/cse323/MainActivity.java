@@ -19,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setIpAndPort();
-        startSocketClient();
+        //setIpAndPort();
+        //startSocketClient();
 
 
-        Button btn1 = (Button) (findViewById(R.id.btn1));
+        Button btn1 = (Button) (findViewById(R.id.imageButton1));
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,28 +31,20 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(ipAddress + " " + portNum);
             }
         });
-        Button btn2 = (Button) (findViewById(R.id.btn2));
+        Button btn2 = (Button) (findViewById(R.id.imageButton2));
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendBtnValue(2);
             }
         });
-        Button btn3 = (Button) (findViewById(R.id.btn3));
+        Button btn3 = (Button) (findViewById(R.id.imageButton3));
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendBtnValue(3);
             }
         });
-        Button btn4 = (Button) (findViewById(R.id.btn4));
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendBtnValue(4);
-            }
-        });
-
 
     }
 
@@ -69,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         ipAddress = bundle.getString("ip");
         portNum = bundle.getInt("port");
-
-
     }
 
     public int getSelectedButton(){

@@ -30,7 +30,7 @@ public class ConnectionScreen extends AppCompatActivity {
             public void onClick(View v) {
                 ipAddress = ipRetriever.getText().toString();
                 portNum = Integer.valueOf(portRetriever.getText().toString()); //Retrieves and converts portNum to an int
-                startMain(ipAddress,portNum); //Calls startMain method
+                startSocketUI(ipAddress,portNum); //Calls startMain method
 
             }
         });
@@ -39,9 +39,9 @@ public class ConnectionScreen extends AppCompatActivity {
         /* Creates the Main Activity when the 'connect' button
         is pressed and sends the users ip and port number to it.
          */
-        public void startMain(String ip, int port) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("ip", ip); //This sends the ip and port variables to the MainActivity Class
+        public void startSocketUI(String ip, int port) {
+            Intent intent = new Intent(this, SocketClientUI.class);
+            intent.putExtra("ip", ip); //This sends the ip and port variables to SocketClientUI Class
             intent.putExtra("port", port);
             startActivity(intent);
 
