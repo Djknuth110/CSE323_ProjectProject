@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.regex.Pattern;
+
 public class ConnectionScreen extends AppCompatActivity {
 
     private EditText portRetriever, ipRetriever;  //Used to hold user connection input.
     private String ipAddress = "";
     private int portNum = 0;
     private Button connect;
+    //Checks if IP is valid using Regular Expression
+    private final Pattern PATTERN = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +33,12 @@ public class ConnectionScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ipAddress = ipRetriever.getText().toString();
-                portNum = Integer.valueOf(portRetriever.getText().toString()); //Retrieves and converts portNum to an int
-                startSocketUI(ipAddress,portNum); //Calls startMain method
+
+                //Retrieves and converts portNum to an int
+                portNum = Integer.valueOf(portRetriever.getText().toString());
+
+                //Starts SocketClient
+                startSocketUI(ipAddress,portNum);
 
             }
         });
@@ -46,5 +54,9 @@ public class ConnectionScreen extends AppCompatActivity {
             startActivity(intent);
 
         }
+        //Checks if entered String is a valid IP
+        public boolean validate(String ip) {
+            return PATTERN.matcher(ip).matches();
+            }
 
 }
